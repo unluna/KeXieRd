@@ -18,14 +18,13 @@ class Login {
     }
 
     /**
-     * 获取后台全部图书列表
+     * 是否登录
      * @example
      * return new Promise
      */
     getData(username, password) {
         return new Promise(resolve => {
             UserModel.findOne({username}, (err, userDoc) => {
-                console.log(userDoc);
                 if (!err) {
                     if (userDoc === null) {
                         resolve({code: 1, msg: '用户不存在！'});
@@ -35,11 +34,57 @@ class Login {
                         resolve({
                             code: 0, msg: '登陆成功！', data: {
                                 userId: userDoc._id,
-                                username: userDoc.username
+                                username: userDoc.username,
+                                userType: userDoc.type,
                             }
                         });
                     }
                 } else {
+                    console.log(err);
+                    resolve({code: 1, msg: err});
+                }
+            });
+        })
+    }
+
+    /**
+     * 是否含有root用户
+     * @example
+     * return new Promise
+     */
+    hasRootUser(userId) {
+        return new Promise(resolve => {
+            UserModel.findOne({_id:userId, type: "root"}, (err, userDoc) => {
+                if (!err) {
+                    if (userDoc === null) {
+                        resolve({code: 1, msg: '管理员不存在，请退出重新登录！'});
+                    } else {
+                        resolve({code: 0, msg: '管理员用户存在！'});
+                    }
+                } else {
+                    console.log(err);
+                    resolve({code: 1, msg: err});
+                }
+            });
+        })
+    }
+
+    /**
+     * 用户是否存在
+     * @example
+     * return new Promise
+     */
+    hasUser(username) {
+        return new Promise(resolve => {
+            UserModel.findOne({username}, (err, userDoc) => {
+                if (!err) {
+                    if (userDoc === null) {
+                        resolve({code: 0, msg: '用户不存在，可以注册！'});
+                    } else {
+                        resolve({code: 1, msg: '账号已存在！'});
+                    }
+                } else {
+                    console.log(err);
                     resolve({code: 1, msg: err});
                 }
             });

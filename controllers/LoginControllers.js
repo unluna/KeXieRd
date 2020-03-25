@@ -30,6 +30,14 @@ class LoginControllers {
                     httpOnly: false,  // 是否只用于http请求中获取
                 }
             );
+            ctx.cookies.set(
+                'userType',
+                res.data.userType,
+                {
+                    maxAge: 1000 * 60 * 60 * 24,   // cookie有效时长
+                    httpOnly: false,  // 是否只用于http请求中获取
+                }
+            );
         }
         ctx.body = res;
     }
