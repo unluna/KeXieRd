@@ -5,12 +5,16 @@ const MsgTypeControllers= require("./MsgTypeControllers");
 const MsgControllers= require("./MsgControllers");
 const MsgListControllers= require("./MsgListControllers");
 const SignUpControllers= require("./SignUpControllers");
+const ModifyControllers= require("./ModifyControllers");
+const UserInfoControllers= require("./UserInfoControllers");
 const indexController = new IndexController();
 const loginControllers = new LoginControllers();
 const msgTypeControllers = new MsgTypeControllers();
 const msgControllers = new MsgControllers();
 const msgListControllers = new MsgListControllers();
 const signUpControllers = new SignUpControllers();
+const modifyControllers = new ModifyControllers();
+const userInfoControllers = new UserInfoControllers();
 
 module.exports = app => {
     app.use(
@@ -22,6 +26,8 @@ module.exports = app => {
             _.post('/msg', msgControllers.actionMsg);
             _.post('/msglist', msgListControllers.actionMsgList);
             _.post('/signup', signUpControllers.actionSignUp);
+            _.post('/modify', modifyControllers.actionModify);
+            _.post('/userinfo', userInfoControllers.actionUserInfo);
         })
     )
 };

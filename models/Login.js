@@ -36,6 +36,11 @@ class Login {
                                 userId: userDoc._id,
                                 username: userDoc.username,
                                 userType: userDoc.type,
+                                userHeader: userDoc.header,
+                                userGrade: userDoc.grade,
+                                userDepartment: userDoc.department,
+                                userSex: userDoc.sex,
+                                userNickname: userDoc.nickname,
                             }
                         });
                     }
@@ -54,7 +59,7 @@ class Login {
      */
     hasRootUser(userId) {
         return new Promise(resolve => {
-            UserModel.findOne({_id:userId, type: "root"}, (err, userDoc) => {
+            UserModel.findOne({_id: userId, type: "root"}, (err, userDoc) => {
                 if (!err) {
                     if (userDoc === null) {
                         resolve({code: 1, msg: '管理员不存在，请退出重新登录！'});
@@ -88,6 +93,57 @@ class Login {
                     resolve({code: 1, msg: err});
                 }
             });
+        })
+    }
+
+    /**
+     * 返回用户信息
+     * @example
+     * return new Promise
+     */
+    userInfo(userId) {
+        return new Promise(resolve => {
+
+            UserModel.findOne({_id: userId},{password:0}, (err, userDoc) => {
+                if (!err) {
+                    if (userDoc === null) {
+                        resolve({code: 1, msg: '用户不存在！'});
+                    } else {
+                        resolve({
+                            code: 0,
+                            msg: 'success！',
+                            data: userDoc
+                        });
+                    }
+                } else {
+                    console.log(err);
+                    resolve({code: 1, msg: err});
+                }
+            });
+        })
+    }
+
+    /**
+     * 更改用户信息
+     * @example
+     * return new Promise
+     */
+    modifyUser(userId, modifyType, modifyValue) {
+        return new Promise(resolve => {
+            UserModel.updateOne(
+                {'_id': userId}, {[modifyType]: modifyValue}, (err, userDoc) => {
+                    if (!err) {
+                        if (userDoc.ok === 1) {
+                            resolve({code: 0, msg: '修改成功！'});
+                        } else {
+                            resolve({code: 1, msg: '修改失败！'});
+                        }
+                    } else {
+                        console.log(err);
+                        resolve({code: 1, msg: err});
+                    }
+                }
+            )
         })
     }
 }
