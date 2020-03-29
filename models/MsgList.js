@@ -1,11 +1,11 @@
 /**
- * @fileOverView 实现 Books 数据模型
+ * @fileOverView 实现 文章列表 数据模型
  * @author BaiShiyu
  */
 const MsgModel = require("../db/msg");
 const _ = require("lodash");
 /**
- * Books 类 获取后台有关图书相关的数据类
+ * MsgList 类 获取文章列表的数据类
  * @class
  */
 class MsgList {
@@ -18,7 +18,7 @@ class MsgList {
     }
 
     /**
-     * 获取后台全部图书列表
+     * 获取后台全部文章列表
      * @example
      * return new Promise
      */

@@ -1,11 +1,11 @@
 /**
- * @fileOverView 实现 Books 数据模型
+ * @fileOverView 实现 用户数据 数据模型
  * @author BaiShiyu
  */
 const UserModel = require("../db/users");
 
 /**
- * Books 类 获取后台有关图书相关的数据类
+ * Login 类 获取用户数据相关的数据类
  * @class
  */
 class Login {
@@ -18,7 +18,9 @@ class Login {
     }
 
     /**
-     * 是否登录
+     * 登录
+     * @param {String} username 用户名
+     * @param {String} password 密码
      * @example
      * return new Promise
      */
@@ -54,6 +56,7 @@ class Login {
 
     /**
      * 是否含有root用户
+     * @param {String} userId 用户数据库索引 ID
      * @example
      * return new Promise
      */
@@ -75,7 +78,8 @@ class Login {
     }
 
     /**
-     * 用户是否存在
+     * 注册时用户名是否存在
+     * @param {String} username 用户名
      * @example
      * return new Promise
      */
@@ -95,16 +99,39 @@ class Login {
             });
         })
     }
+    /**
+     * 用户是否存在
+     * @param {String} userId 用户数据库索引 ID
+     * @example
+     * return new Promise
+     */
+    hasUserId(userId) {
+        return new Promise(resolve => {
+            UserModel.findOne({_id: userId}, (err, userDoc) => {
+                if (!err) {
+                    if (userDoc === null) {
+                        resolve({code: 1, msg: '用户不存在！'});
+                    } else {
+                        resolve({code: 0, msg: '用户存在！'});
+                    }
+                } else {
+                    console.log(err);
+                    resolve({code: 1, msg: err});
+                }
+            });
+        })
+    }
 
     /**
      * 返回用户信息
+     * @param {String} userId 用户数据库索引 ID
      * @example
      * return new Promise
      */
     userInfo(userId) {
         return new Promise(resolve => {
 
-            UserModel.findOne({_id: userId},{password:0}, (err, userDoc) => {
+            UserModel.findOne({_id: userId}, {password: 0}, (err, userDoc) => {
                 if (!err) {
                     if (userDoc === null) {
                         resolve({code: 1, msg: '用户不存在！'});
@@ -125,6 +152,9 @@ class Login {
 
     /**
      * 更改用户信息
+     * @param {String} userId 用户数据库索引 ID
+     * @param {String} modifyType 用户要修改的信息名（比如：昵称）
+     * @param {String} modifyValue 用户要修改的信息名 对应的值（比如：镜子大师）
      * @example
      * return new Promise
      */
@@ -149,8 +179,3 @@ class Login {
 }
 
 module.exports = Login;
-// //生成一个cookie
-// res.cookie('userId', userDoc._id, {maxAge: 1000 * 60 * 60 * 24})
-// //响应数据中不要携带密码
-// const data = {id: userDoc._id, username, type}
-// res.send({code: 0, data: data})

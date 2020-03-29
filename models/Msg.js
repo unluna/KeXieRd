@@ -1,11 +1,11 @@
 /**
- * @fileOverView 实现 Books 数据模型
+ * @fileOverView 实现 保存文章 数据模型
  * @author BaiShiyu
  */
 const MsgModel = require("../db/msg");
 
 /**
- * Books 类 获取后台有关图书相关的数据类
+ * Msg 类 保存用户填写的文章的数据类
  * @class
  */
 class Msg {
@@ -18,15 +18,15 @@ class Msg {
     }
 
     /**
-     * 获取后台全部图书列表
+     * 用户保存文章后是否成功
      * @example
      * return new Promise
      */
-    getData(msgAuthorId,msgAuthorName, departments,
+    getData(msgAuthorId, departments,
             labels, msgTitle, msgContent) {
         return new Promise(resolve => {
             new MsgModel({
-                msgAuthorId,msgAuthorName, departments, labels, msgTitle, msgContent
+                msgAuthorId, departments, labels, msgTitle, msgContent
             }).save((err) => {
                 if (err) {
                     console.log(err);

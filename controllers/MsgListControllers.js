@@ -7,7 +7,6 @@ class MsgListControllers {
     }
 
     async actionMsgList(ctx, next) {
-        // const aUrlTypeFirst = ["recommend", "follow", "fe", "rd", "game", "ui", "read"];
         const aUrlTypeSecond = ["recommend", "follow", "department"];
         const aNavType = ["hot", "new"];
 

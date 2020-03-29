@@ -15,6 +15,7 @@ class LoginControllers {
                     userId,
                     username,
                     userHeader,
+                    userType
                 }
             } = res;
             ctx.cookies.set('userId', userId, {
@@ -26,6 +27,10 @@ class LoginControllers {
                 httpOnly: false,  // 是否只用于http请求中获取
             });
             ctx.cookies.set('userHeader', userHeader, {
+                maxAge: 1000 * 60 * 60 * 24,   // cookie有效时长
+                httpOnly: false,  // 是否只用于http请求中获取
+            });
+            ctx.cookies.set('userType', userType, {
                 maxAge: 1000 * 60 * 60 * 24,   // cookie有效时长
                 httpOnly: false,  // 是否只用于http请求中获取
             });

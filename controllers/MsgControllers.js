@@ -1,4 +1,5 @@
 const Msg = require("../models/Msg");
+const Login = require("../models/Login");
 
 class MsgControllers {
     constructor() {
@@ -8,13 +9,12 @@ class MsgControllers {
     async actionMsg(ctx, next) {
         const {
             msgAuthorId = "",
-            msgAuthorName = "",
             departments = [],
             labels = [],
-            msgTitle="",
+            msgTitle = "",
             msgContent = ""
         } = ctx.request.body;
-        if (!msgAuthorId||!msgAuthorName) {
+        if (!msgAuthorId) {
             ctx.body = {code: 1, msg: "无效的用户！"};
         } else if (departments.length === 0) {
             ctx.body = {code: 1, msg: "分类不能为空！"};
@@ -27,8 +27,14 @@ class MsgControllers {
         } else if (msgContent.length > 15000) {
             ctx.body = {code: 1, msg: "内容不能超过1万5000字！"};
         } else {
-            const msg = new Msg();
-            ctx.body = await msg.getData(msgAuthorId,msgAuthorName, departments, labels, msgTitle, msgContent);
+            const login = new Login();
+            const hasUserId = await login.hasUserId();
+            if (hasUserId.code === 0) {
+                ctx.body = hasUserId;
+            } else {
+                const msg = new Msg();
+                ctx.body = await msg.getData(msgAuthorId, departments, labels, msgTitle, msgContent);
+            }
         }
     }
 }

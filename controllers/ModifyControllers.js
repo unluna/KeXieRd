@@ -14,14 +14,6 @@ class ModifyControllers {
 
         const modifyTypeList = ["nickname", "sex", "header", "grade", "department"];
 
-        const cookieMap = {
-            nickname: "userNickname",
-            sex: "userSex",
-            header: "userHeader",
-            grade: "userGrade",
-            department: "department"
-        };
-
         if (!userId || typeof userId !== "string") {
             ctx.body = {code: 1, msg: "管理员不存在，请退出重新登录！"};
         }
