@@ -1,0 +1,38 @@
+{
+  "name": "node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "start": "npm run dev",
+    "docs": "jsdoc ./**/*.js -d ./docs/jsdoc",
+    "dev": "cross-env NODE_ENV=development supervisor -i node_modules ./app.js",
+    "build": "babel ./assets/scripts/index.js -o ./assets/scripts/index-bundle.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "co": "^4.6.0",
+    "jsdoc": "^3.6.3",
+    "koa": "^2.11.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-simple-router": "^0.2.0",
+    "koa-static": "^5.0.0",
+    "koa-swig": "^2.2.1",
+    "lodash": "^4.17.15",
+    "log4js": "^6.1.2",
+    "mongoose": "^5.9.5",
+    "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.6",
+    "@babel/preset-env": "^7.8.6",
+    "cross-env": "^7.0.0",
+    "supervisor": "^0.12.0"
+  }
+}

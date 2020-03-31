@@ -1,0 +1,48 @@
+{% extends '../layouts/layout.html' %}
+{% block title %} 图书管理首页 {% endblock %}
+
+{% block link %}
+<link rel="stylesheet" href="/styles/index.css">
+{% endblock %}
+
+{% block content %}
+<div>
+    <h1>[[content]]</h1>
+</div>
+<div id="app-6">
+    <p>{{ message }}</p>
+    <input v-model="message">
+</div>
+<div>
+    {% for val in arr %}
+    <div>
+        [[ val.t_user_name ]]
+    </div>
+    <div>
+        [[ val.t_user_password ]]
+    </div>
+    {% endfor %}
+</div>
+<button id="btn">函数式编程</button>
+{% endblock %}
+
+{% block script %}
+<script src="/scripts/yd.js"></script>
+<script type="module">
+    _("🌶").map("🥒");
+    document.querySelector("#btn").addEventListener("click", _.throttle(() => {
+        console.log(Math.random());
+    }));
+    import ("/scripts/index.js").then((_) => {
+        console.log(_.default);
+    })
+</script>
+<script type="nomodule" src="https://cdn.bootcss.com/systemjs/6.2.5/system.min.js"></script>
+<script type="nomodule">
+    System.import("/scripts/index-bundle.js").then((_) => {
+        console.log(_.default);
+    })
+
+
+</script>
+{% endblock %}

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+
+    {% block head %}
+    {% endblock %}
+
+    {% block link %}
+    {% endblock %}
+</head>
+<body>
+
+{% block content %}
+{% endblock %}
+<script src="https://cdn.bootcss.com/vue/2.6.11/vue.min.js"></script>
+{% block script %}
+{% endblock %}
+
+</body>
+</html>
