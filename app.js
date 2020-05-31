@@ -40,5 +40,5 @@ errorHandler.error(app, logger);
 require("./controllers")(app);
 
 app.listen(config.port, () => {
-    console.log("图书管理平台启动成功...");
+    console.log("科技创新协会系统启动成功...");
 });

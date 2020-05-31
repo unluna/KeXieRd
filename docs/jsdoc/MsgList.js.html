@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: MsgList.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: MsgList.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileOverView 实现 文章列表 数据模型
+ * @author BaiShiyu
+ */
+const MsgModel = require("../db/msg");
+const _ = require("lodash");
+/**
+ * MsgList 类 获取文章列表的数据类
+ * @class
+ */
+class MsgList {
+    /**
+     * @constructor
+     * @param {object} app Koa2执行上下文
+     */
+    constructor() {
+
+    }
+
+    /**
+     * 获取后台全部文章列表
+     * @example
+     * return new Promise
+     */
+    getRecommendData(navType) {
+        return new Promise(resolve => {
+            switch (navType) {
+                case "hot":
+                    MsgModel.find( (err, msgDoc) => {
+                        if (!err) {
+                            if(msgDoc.length){
+                                const arr= _.sortBy(msgDoc, item=> {
+                                    return -item.goodNum;
+                                });
+                                resolve({code: 0, msg: "success", data: arr});
+                            }else {
+                                resolve({code: 0, msg: "success", data: msgDoc});
+                            }
+                        } else {
+                            console.log(err);
+                            resolve({code: 1, msg: err});
+                        }
+                    });
+                    break;
+                case "new":
+                    MsgModel.find( (err, msgDoc) => {
+                        if (!err) {
+                            if(msgDoc.length){
+                                const arr= _.sortBy(msgDoc, item=> {
+                                    return -item.dateTime;
+                                });
+                                resolve({code: 0, msg: "success", data: arr});
+                            }else {
+                                resolve({code: 0, msg: "success", data: msgDoc});
+                            }
+                        } else {
+                            console.log(err);
+                            resolve({code: 1, msg: err});
+                        }
+                    });
+                    break;
+                default:
+                    resolve({code: 1, msg: "程序出错，请联系管理员！"});
+                    break;
+            }
+        });
+    }
+
+    getDepartmentData(navType,urlType){
+        return new Promise(resolve => {
+            switch (navType) {
+                case "hot":
+                    MsgModel.find({departments:{$elemMatch:{$eq:urlType}}}, (err, msgDoc) => {
+                        if (!err) {
+                            if(msgDoc.length){
+                                const arr= _.sortBy(msgDoc, item=> {
+                                    return -item.goodNum;
+                                });
+                                resolve({code: 0, msg: "success", data: arr});
+                            }else {
+                                resolve({code: 0, msg: "success", data: msgDoc});
+                            }
+                        } else {
+                            console.log(err);
+                            resolve({code: 1, msg: err});
+                        }
+                    });
+                    break;
+                case "new":
+                    MsgModel.find( {departments:{$elemMatch:{$eq:urlType}}},(err, msgDoc) => {
+                        if (!err) {
+                            if(msgDoc.length){
+                                const arr= _.sortBy(msgDoc, item=> {
+                                    return -item.dateTime;
+                                });
+                                resolve({code: 0, msg: "success", data: arr});
+                            }else {
+                                resolve({code: 0, msg: "success", data: msgDoc});
+                            }
+                        } else {
+                            console.log(err);
+                            resolve({code: 1, msg: err});
+                        }
+                    });
+                    break;
+                default:
+                    resolve({code: 1, msg: "程序出错，请联系管理员！"});
+                    break;
+            }
+        });
+    }
+}
+
+module.exports = MsgList;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Login.html">Login</a></li><li><a href="Msg.html">Msg</a></li><li><a href="MsgInfo.html">MsgInfo</a></li><li><a href="MsgList.html">MsgList</a></li><li><a href="MsgType.html">MsgType</a></li><li><a href="SignUp.html">SignUp</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun May 31 2020 09:39:40 GMT+0800 (China Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
