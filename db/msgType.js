@@ -1,3 +1,5 @@
+const SignUp = require("../models/SignUp");
+
 const {mongoose} = require("./index");
 
 const msgTypeSchema = mongoose.Schema({
@@ -58,7 +60,8 @@ const InitData = [
         "name": "杂谈",
         "type": "department"
     }
-]
+];
+const userInitData = [123456, 123456, "root"]
 const ifInitDB = () => {
     return new Promise(resolve => {
         MsgTypeModel.findOne({name: "前端"}, (err, userDoc) => {
@@ -76,9 +79,9 @@ const ifInitDB = () => {
     })
 }
 
-const insertInitData = () => {
+const insertSysInitData = () => {
     return new Promise(resolve => {
-         MsgTypeModel.create(InitData, err => {
+        MsgTypeModel.create(InitData, err => {
             if (err) {
                 console.log("数据库初始化失败，错误信息：", err);
                 resolve(false);
@@ -97,8 +100,10 @@ async function initDB() {
         const res = await ifInitDB();
 
         if (res === "init") {
-            const res = await insertInitData();
-            flag = res ? "notInit" : "init";
+            const signUp = new SignUp();
+            const sysRes = await insertSysInitData();
+            const {code} = await signUp.getData(...userInitData);
+            flag = sysRes && code === 0 ? "notInit" : "init";
         }
     }
 }

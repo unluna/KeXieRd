@@ -18,7 +18,7 @@ class SignUp {
     }
 
     /**
-     * 获取后台全部图书列表
+     * 注册用户
      * @example
      * return new Promise
      */
